@@ -8,7 +8,6 @@ parameters:
   xs-uaa-app-name: shoppr_dev
   app_name: shoppr
   deployed_domain: cfapps.eu10.hana.ondemand.com
-
 modules:
  - name: sample.Shop
    type: html5
