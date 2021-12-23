@@ -1,0 +1,46 @@
+# Project configuration
+general:
+  buildTool: "mta"             # or "npm" or "maven"
+
+# Stages configuration
+stages:
+  Build:
+    mavenExecuteStaticCodeChecks: true    # true, if you want to execute static code checks to verify the syntax of your Java code
+    npmExecuteLint: true                  # true, if you want to run a lint check that verifies the syntax of your JavaScript code
+
+  Additional Unit Tests:
+    karmaExecuteTests: false   # true, if you want to execute the Karma Test Runner (default: false)
+    npmExecuteScripts: false   # true, if you want to execute test scripts that are defined in step npmExecuteScripts
+
+  Acceptance:
+    cfApiEndpoint: "<YOUR SAP BTP, CLOUD FOUNDRY ENVIRONMENT API ENDPOINT>" # for example, https://api.cf.eu10.hana.ondemand.com
+    cfOrg: "<NAME OF YOUR CLOUD FOUNDRY ORGANIZATION>"
+    cfSpace: "<NAME OF YOUR CLOUD FOUNDRY SPACE>"                           # the Cloud Foundry space, in which you want to execute uiVeri5 tests
+    cfAppName: "<NAME OF YOUR APPLICATION>"
+    cfCredentialsId: "deploy-to-cf"
+    uiVeri5ExecuteTests: false                                              # true, if you want to execute uiVeri5 tests (default:false)
+
+  Release:
+    cloudFoundryDeploy: true                                                # true, if you want to deploy to Cloud Foundry. If you set this parameter to true, the CloudFoundryDeploy step is mandatory
+    cfApiEndpoint: "https://api.cf.eu10.hana.ondemand.com" # for example, https://api.cf.eu10.hana.ondemand.com
+    cfOrg: "c922c205trial_c922c205trial>"
+    cfSpace: "DEV"                           # the Cloud Foundry space, to which you want to deploy your application
+    cfAppName: "app"
+    cfCredentialsId: "deploy-to-cf"
+    tmsUpload: true                                                         # true, if you want to upload your artifact to SAP Cloud Transport Management. If you set this parameter to true, the tmsUpload step is mandatory
+
+# Steps configuration
+steps:
+  # Init stage step
+  artifactPrepareVersion:
+    versioningType: "cloud_noTag"                                                # or 'cloud', if you want your pipeline to write Git tags. In this case, you need to add the gitHttpsCredentialsId parameter
+
+  npmExecuteLint:
+    failOnError: false                                                           # true, if you want your pipeline to fail, if the lint check reveals any errors
+  # Release stage steps
+  cloudFoundryDeploy:                                                            # only relevant, if you set the cloudFoundryDeploy parameter in the Release stage to true
+    mtaDeployParameters: "-f --version-rule ALL"
+
+  tmsUpload:                                                                     # only relevant, if you set the tmsUpload parameter in the Release stage to true
+    nodeName: "QA"
+    credentialsId: "tms-sk"
