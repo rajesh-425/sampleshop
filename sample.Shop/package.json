@@ -3,54 +3,17 @@
   "version": "0.0.1",
   "description": "",
   "devDependencies": {
-    "@ui5/cli": "^2.8.1",
-    "cross-var": "^1.1.0",
-    "eslint": "^7.18.0",
-    "karma": "^6.0.1",
-    "karma-chrome-launcher": "^3.1.0",
-    "karma-coverage": "^2.0.3",
-    "karma-ui5": "^2.3.2",
-    "mbt": "^1.1.0",
-    "npm-run-all": "^4.1.5",
-    "shx": "^0.3.3",
-    "ui5-middleware-cfdestination": "^0.7.3",
-    "ui5-middleware-livereload": "^0.5.1",
-    "ui5-middleware-simpleproxy": "*",
-    "ui5-task-cachebuster-indexing": "*",
-    "ui5-task-zipper": "^0.4.2"
+    "@sap/grunt-sapui5-bestpractice-build": "1.4.6",
+    "@sap/grunt-sapui5-bestpractice-test": "2.0.2"
   },
   "dependencies": {
     "@sap/approuter": "6.8.0"
   },
   "scripts": {
-    "start": "ui5 serve --config=uimodule/ui5.yaml  --open index.html",
-    "build:ui": "run-s  build:uimodule",
-    "test": "run-s lint karma",
-    "karma-ci": "karma start karma-ci.conf.js",
-    "clearCoverage": "shx rm -rf coverage",
-    "karma": "run-s clearCoverage karma-ci",
-    "lint": "eslint .",
-    "build:mta": "mbt build",
-    "deploy:cf": "cross-var cf deploy mta_archives/com.ro.roui_$npm_package_version.mtar",
-    "deploy:cf-dev": "cross-var cf deploy mta_archives/com.ro.roui_$npm_package_version.mtar -e roapp-config/DevDeployconfig.mtaext",
-    "deploy:cf-qa": "cross-var cf deploy mta_archives/com.ro.roui_$npm_package_version.mtar -e  roapp-config/QADeployconfig.mtaext",
-    "deploy:cf-demo": "cross-var cf deploy mta_archives/com.ro.roui_$npm_package_version.mtar -e roapp-config/DemoDeployconfig.mtaext",
-    "deploy:cf-prd": "cross-var cf deploy mta_archives/com.ro.roui_$npm_package_version.mtar -e roapp-config/ProdDeployconfig.mtaext",
-    "deploy": "run-s build:mta deploy:cf",
-    "html5:push": "cf html5-push -r uimodule/dist",
-    "serve:uimodule": "ui5 serve --config=uimodule/ui5.yaml",
-    "build:uimodule": "ui5 build --config=uimodule/ui5.yaml --clean-dest --dest uimodule/dist --include-task=generateManifestBundle generateCachebusterInfo"
+    "start": "node node_modules/@sap/approuter/approuter.js",
+    "test": "grunt unit_and_integration_tests"
   },
   "engines": {
     "node": "^12.0.0 || ^14.0.0"
-  },
-  "ui5": {
-    "dependencies": [
-      "ui5-middleware-livereload",
-      "ui5-middleware-cfdestination",
-      "ui5-middleware-simpleproxy",
-      "ui5-task-zipper",
-      "ui5-task-cachebuster-indexing"
-    ]
   }
 }
