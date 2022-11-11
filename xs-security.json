@@ -10,5 +10,9 @@
         "uaa.user"
       ]
     }
-  ]
+  ],
+  "oauth2-configuration": {
+"redirect-uris": [
+   "https://d239a54ctrial-dev-sample-shop.cfapps.us10-001.hana.ondemand.com/login/callback"]
+   }
 }
